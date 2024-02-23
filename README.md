@@ -278,6 +278,7 @@ This module uses some code from Andy Martin (ActionTagHelper and other bits).
 
 Version | Description
 ------- | ---------------------
+v1.1.0  | Updated framework version; action tag is now shown in the list of action tags.
 v1.0.6  | Add support for multiple redcap_data tables.
 v1.0.5  | Bugfix: The module would not work on classic projects (i.e. non-longitudinal and/or not having repeating forms/events).
 v1.0.4  | Bugfix: IE11 compatibility.

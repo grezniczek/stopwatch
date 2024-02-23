@@ -10,7 +10,7 @@
     "documentation": "README.md",
     "tt_documentation": "module_docs",
 
-    "framework-version": 3,
+    "framework-version": 12,
 
     "authors": [
         {
@@ -28,13 +28,6 @@
             "email": "n.c.haouidji-javaux@bham.ac.uk",
             "institution": "University of Birmingham"
         }
-    ],
-
-    "permissions": [
-        "redcap_every_page_top",
-        "redcap_data_entry_form",
-        "redcap_survey_page",
-        "redcap_save_record"
     ],
 
     "enable-every-page-hooks-on-system-pages": false,
@@ -55,10 +48,18 @@
 
     "system-settings": [],
 
-    "compatibility": {
-        "php-version-min": "5.6.0",
-        "php-version-max": "",
-        "redcap-version-min": "9.5.0",
-        "redcap-version-max": ""
-    }
+    "action-tags": [
+        {
+           "tag": "@STOPWATCH",
+           "description": "When added to a field on a form, this will turn the field into a stopwatch widget. The result of the stopwatch measurement will be written into this field, provided it is of a compatible type, or another field, if so configured using the 'target' parameter. The looks and behavior of the stopwatch widget can be controlled via a JSON object that is passed as an argument to the action tag:<br><code>@STOPWATCH=<br>{<br>&nbsp;&nbsp;&quot;parameter&quot;: &quot;value&quot;<br>}</code><br>For more details and examples, please refer to the full module documentation."
+        },
+        {
+            "tag": "@STOPWATCH_CAPTURE",
+            "description": "Adds a stopwatch that can record multiple captures of the (until then) elapsed time. Configuration is done the same way as for the <code>@STOPWATCH</code> action tag. For more details and examples, please refer to the full module documentation." 
+        },
+        {
+            "tag": "@STOPWATCH_LAP",
+            "description": "Adds a stopwatch that can record multiple laps. Configuration is done the same way as for the <code>@STOPWATCH</code> action tag. For more details and examples, please refer to the full module documentation." 
+        }
+    ]
 }
