@@ -189,18 +189,10 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 <div class="stopwatch-em stopwatch-em-container" aria-label="Stopwatch EM">
                     <input type="text" class="stopwatch-em-focus-capture" style="position:absolute;right:0;top:0;width:1px;opacity:0" />
                     <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text"><i class="fas fa-hourglass-start stopwatch-em-hourglass"></i></div>
-                        </div>
-                        <div class="input-group-append">
-                            <div class="input-group-text stopwatch-em-timerdisplay"></div>
-                        </div>
-                        <div class="input-group-append">
-                            <button role="button" class="btn btn-secondary stopwatch-em-reset">Reset</button>
-                        </div>
-                        <div class="input-group-append">
-                            <button role="button" class="btn btn-secondary stopwatch-em-startstop">Start</button>
-                        </div>
+                        <div class="input-group-text"><i class="fas fa-hourglass-start stopwatch-em-hourglass"></i></div>
+                        <div class="input-group-text stopwatch-em-timerdisplay"></div>
+                        <button role="button" class="btn btn-secondary stopwatch-em-reset">Reset</button>
+                        <button role="button" class="btn btn-secondary stopwatch-em-startstop">Start</button>
                     </div>
                     <div class="stopwatch-em-captures">
                         <table class="stopwatch-em-table">
