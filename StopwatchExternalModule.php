@@ -443,7 +443,7 @@ class StopwatchExternalModule extends AbstractExternalModule {
         if ($params["mode"] == "capture" || $params["mode"] == "lap") {
             // Imply store format from presence of a mapping parameter.
             $params["store_format"] = isset($params["mapping"]) ? "repeating" : "json";
-            if ($this->requireInt($params["max_rows"], 0) === null) {
+            if (!isset($params["max_rows"]) || $this->requireInt($params["max_rows"], 0) === null) {
                 $params["max_rows"] = 0;
             }
             if (!isset($params["only_once"])) {
