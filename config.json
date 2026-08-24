@@ -4,7 +4,7 @@
 
     "namespace": "DE\\RUB\\StopwatchExternalModule",
     
-    "description": "A REDCap External Module that provides a stopwatch widget that can be integrated into data entry forms or surveys. Results (elapsed time, times started/stopped) can be captured in a number of ways. For more details and to report bugs, please see this module's <a href=\"https://github.com/davwillev/stopwatch\" target=\"_blank\">GitHub</a> page.",
+    "description": "A flexible REDCap External Module that adds stopwatch widgets to data-entry forms and surveys. It can store elapsed time, captures, laps, and start/stop timestamps in several formats. For details and bug reports, see the module's <a href=\"https://github.com/grezniczek/stopwatch\" target=\"_blank\">GitHub page</a>.",
     "tt_description": "module_desc",
     
     "documentation": "README.md",
@@ -51,15 +51,18 @@
     "action-tags": [
         {
            "tag": "@STOPWATCH",
-           "description": "When added to a field on a form, this will turn the field into a stopwatch widget. The result of the stopwatch measurement will be written into this field, provided it is of a compatible type, or another field, if so configured using the 'target' parameter. The looks and behavior of the stopwatch widget can be controlled via a JSON object that is passed as an argument to the action tag:<br><code>@STOPWATCH=<br>{<br>&nbsp;&nbsp;&quot;parameter&quot;: &quot;value&quot;<br>}</code><br>For more details and examples, please refer to the full module documentation."
+           "description": "Turns a compatible field into a stopwatch widget, or writes the result to a separately configured target field. Customize the widget with a JSON parameter object:<br><code>@STOPWATCH=<br>{<br>&nbsp;&nbsp;&quot;parameter&quot;: &quot;value&quot;<br>}</code><br>See the module documentation for details and examples.",
+           "tt_description": "at_stopwatch"
         },
         {
             "tag": "@STOPWATCH-CAPTURE",
-            "description": "Adds a stopwatch that can record multiple captures of the (until then) elapsed time. Configuration is done the same way as for the <code>@STOPWATCH</code> action tag. For more details and examples, please refer to the full module documentation." 
+            "description": "Adds a stopwatch that records multiple captures of elapsed time. Configure it in the same way as the <code>@STOPWATCH</code> action tag. See the module documentation for details and examples.",
+            "tt_description": "at_stopwatch_capture"
         },
         {
             "tag": "@STOPWATCH-LAP",
-            "description": "Adds a stopwatch that can record multiple laps. Configuration is done the same way as for the <code>@STOPWATCH</code> action tag. For more details and examples, please refer to the full module documentation." 
+            "description": "Adds a stopwatch that records multiple laps. Configure it in the same way as the <code>@STOPWATCH</code> action tag. See the module documentation for details and examples.",
+            "tt_description": "at_stopwatch_lap"
         }
     ]
 }

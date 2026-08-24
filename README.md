@@ -283,6 +283,7 @@ The v1.2.0 reliability release also benefited from a rigorous code-review and te
 - Corrected date, datetime, and UTC timestamp mapping conversions.
 - Improved PHP 8 compatibility by handling missing optional values, action-tag types, and untagged fields safely.
 - Invalid action-tag JSON and repeat-storage mapping keys are now reported on the affected field.
+- Action-tag descriptions, widget accessibility text, and remaining runtime messages now use the module language strings.
 - Corrected the documented action-tag spelling to use dashes rather than underscores.
 
 ### Earlier releases

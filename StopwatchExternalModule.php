@@ -204,6 +204,9 @@ class StopwatchExternalModule extends AbstractExternalModule {
             $messages = array(
                 "error_overflow" => $this->tt("error_overflow"),
             );
+            $aria_stopwatch = htmlspecialchars($this->framework->tt("aria_stopwatch"), ENT_QUOTES);
+            $label_reset = htmlspecialchars($this->framework->tt("label_reset"), ENT_QUOTES);
+            $label_start = htmlspecialchars($this->framework->tt("label_start"), ENT_QUOTES);
             // Transfer data to the JavaScript implementation.
             ?>
             <script>
@@ -214,13 +217,13 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 DTO.messages = <?=json_encode($messages)?>;
             </script>
             <div style="display:none;" data-stopwatch-em-template="stopwatch-basic">
-                <div class="stopwatch-em stopwatch-em-container" aria-label="Stopwatch EM">
+                <div class="stopwatch-em stopwatch-em-container" aria-label="<?=$aria_stopwatch?>">
                     <input type="text" class="stopwatch-em-focus-capture" style="position:absolute;right:0;top:0;width:1px;opacity:0" />
                     <div class="input-group input-group-sm">
                         <div class="input-group-text"><i class="fas fa-hourglass-start stopwatch-em-hourglass"></i></div>
                         <div class="input-group-text stopwatch-em-timerdisplay"></div>
-                        <button role="button" class="btn btn-secondary stopwatch-em-reset">Reset</button>
-                        <button role="button" class="btn btn-secondary stopwatch-em-startstop">Start</button>
+                        <button role="button" class="btn btn-secondary stopwatch-em-reset"><?=$label_reset?></button>
+                        <button role="button" class="btn btn-secondary stopwatch-em-startstop"><?=$label_start?></button>
                     </div>
                     <div class="stopwatch-em-captures">
                         <table class="stopwatch-em-table">
