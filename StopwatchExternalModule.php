@@ -156,10 +156,10 @@ class StopwatchExternalModule extends AbstractExternalModule {
             if ($target_type == "date_mdy") return date("m-d-Y", $ts);
             if ($target_type == "date_ymd") return date("Y-m-d", $ts);
             if ($target_type == "datetime_dmy") return date("d-m-Y H:i", $ts);
-            if ($target_type == "datetime_dmy") return date("d-m-Y H:i", $ts);
             if ($target_type == "datetime_mdy") return date("m-d-Y H:i", $ts);
+            if ($target_type == "datetime_ymd") return date("Y-m-d H:i", $ts);
+            if ($target_type == "datetime_seconds_dmy") return date("d-m-Y H:i:s", $ts);
             if ($target_type == "datetime_seconds_mdy") return date("m-d-Y H:i:s", $ts);
-            if ($target_type == "datetime_seconds_ymd") return date("Y-m-d H:i:s", $ts);
             if ($target_type == "datetime_seconds_ymd") return date("Y-m-d H:i:s", $ts);
         }
         return null;
