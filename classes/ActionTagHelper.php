@@ -64,7 +64,8 @@ class ActionTagHelper
                 // Merge action_tag into action_tags
                 $action_tags[$action_tag] = array_merge( $action_tags[$action_tag],
                     array($field_name => array(
-                        'params' => isset($tag['params']) ? $tag['params'] : ""
+                        'params' => isset($tag['params']) ? $tag['params'] : "",
+                        'invalid_params' => $tag['invalid_params']
                     )
                     )
                 );
@@ -124,16 +125,19 @@ class ActionTagHelper
         (?'actiontag'
           \@(?&fieldname)
         )
-        (?:\=
-          (?'params'
-            (?:
-              (?'match_list'(?&fieldlist))
-              |
-              (?'match_json'(?&json))
-              |
-              (?'match_string'(?:[[:alnum:]\_\-]+))
+        (?:
+          (?'params_start'\=)
+          (?:
+            (?'params'
+              (?:
+                (?'match_list'(?&fieldlist))
+                |
+                (?'match_json'(?&json))
+                |
+                (?'match_string'(?:[[:alnum:]\_\-]+))
+              )
             )
-          )
+          )?
         )?/ixm";
 
         preg_match_all($re, $string, $matches);
@@ -146,9 +150,11 @@ class ActionTagHelper
         foreach ($matches['actiontag'] as $i => $tag) {
             $tag = strtoupper($tag);
             if ($tag_only && ($tag != strtoupper($tag_only))) continue;
+            $params = $matches['params'][$i] ?? '';
             $results[] = array(
                 'actiontag' => $tag,
-                'params' => $matches['params'][$i]
+                'params' => $params,
+                'invalid_params' => ($matches['params_start'][$i] ?? '') == '=' && $params == ''
             );
         }
         return $results;

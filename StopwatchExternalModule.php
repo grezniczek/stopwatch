@@ -242,7 +242,10 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 if ($project->getFormByField($field) !== $instrument) continue; 
                 // Validate parameters and add.
                 $params = $param_array['params'];
-                if (empty($params)) {
+                if (!empty($param_array['invalid_params'])) {
+                    $params = null;
+                }
+                else if (empty($params)) {
                     $params = array(
                         "mode" => "basic",
                     );
