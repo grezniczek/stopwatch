@@ -60,10 +60,11 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 if (!is_string($post_value)) continue;
                 $data = json_decode($post_value, true);
                 if (is_array($data)) {
+                    $mappings = $params["mapping"];
+                    if (!$this->isValidRepeatStorageData($data, $mappings)) continue;
                     if (!class_exists("\DE\RUB\StopwatchExternalModule\Project")) include_once("classes/Project.php");
                     $project = Project::load($this->framework, $project_id);
                     $record = $project->getRecord($record_id);
-                    $mappings = $params["mapping"];
                     $instances_data = array();
                     foreach ($data as $item) {
                         // Supplement id.
@@ -106,6 +107,22 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 }
             }
         }
+    }
+
+    private function isValidRepeatStorageData($data, $mappings) {
+        if (!is_array($data) || !count($data)) return false;
+        foreach ($data as $item) {
+            if (!is_array($item)) return false;
+            foreach ($mappings as $key => $target) {
+                if ($key == "id") continue;
+                if (!array_key_exists($key, $item)) return false;
+                $value = $item[$key];
+                if (in_array($key, array("start", "stop"), true) && !is_string($value)) return false;
+                if (in_array($key, array("elapsed", "cumulated", "index", "num_stops"), true) && !is_numeric($value)) return false;
+                if ($key == "is_stop" && !is_bool($value) && !is_numeric($value)) return false;
+            }
+        }
+        return true;
     }
 
     private function convertToStorage($field, $target_type, $value) {
