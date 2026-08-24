@@ -109,6 +109,18 @@ class StopwatchExternalModule extends AbstractExternalModule {
         }
     }
 
+    private function parseRepeatStorageSummary($summary) {
+        if (!is_string($summary)) return null;
+        $summary_parts = explode(":", $summary);
+        if (count($summary_parts) != 4) return null;
+        foreach ($summary_parts as $part) {
+            if (!ctype_digit($part)) return null;
+        }
+        list($load_event, $load_from, $load_to, $load_n) = array_map("intval", $summary_parts);
+        if ($load_event < 1 || $load_from < 1 || $load_to < $load_from || $load_n != $load_to - $load_from + 1) return null;
+        return array($load_event, $load_from, $load_to, $load_n);
+    }
+
     private function isValidRepeatStorageData($data, $mappings) {
         if (!is_array($data) || !count($data)) return false;
         foreach ($data as $item) {
@@ -315,6 +327,7 @@ class StopwatchExternalModule extends AbstractExternalModule {
      * @return array The supplemented parameters.
      */
     private function validateParams($project, $record, $instrument, $event_id, $instance, $field, $params) {
+        $repeating_fields = array();
         // Add defaults.
         if (!isset($params["label_start"])) {
             $params["label_start"] = $this->tt("label_start"); //= Start 
@@ -502,7 +515,6 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 else if ($params["mode"] == "capture") {
                     $repeating_field_names[] = "is_stop";
                 }
-                $repeating_fields = array();
                 foreach ($repeating_field_names as $fieldname) {
                     $mapping = @$params["mapping"][$fieldname];
                     if (!empty($mapping)) {
@@ -575,15 +587,13 @@ class StopwatchExternalModule extends AbstractExternalModule {
         $load_instances = array();
         if ($params["store_format"] == "repeating") {
             $summary = $data[$params["target"]][$instance] ?? "";
-            $summary_parts = explode(":", $summary);
-            if (count($summary_parts) == 4) {
-                list($load_event, $load_from, $load_to, $load_n) = $summary_parts;
-                if ($load_n * 1 > 0) {
-                    for ($i = $load_from * 1; $i <= $load_to * 1; $i++) {
-                        array_push($load_instances, $i);
-                    }
-                    $data = $record->getFieldValues(array_values($repeating_fields), $load_event, $load_instances);
+            $summary_values = $this->parseRepeatStorageSummary($summary);
+            if ($summary_values !== null) {
+                list($load_event, $load_from, $load_to, $load_n) = $summary_values;
+                for ($i = $load_from; $i <= $load_to; $i++) {
+                    array_push($load_instances, $i);
                 }
+                $data = $record->getFieldValues(array_values($repeating_fields), $load_event, $load_instances);
             }
         }
         //
