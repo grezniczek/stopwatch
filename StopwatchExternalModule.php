@@ -56,7 +56,9 @@ class StopwatchExternalModule extends AbstractExternalModule {
         $fields = $this->getFieldParams($project_id, $record_id, $instrument, $event_id, $repeat_instance);
         foreach ($fields as $field => $params) {
             if (empty($params["error"]) && $params["store_format"] == "repeating") {
-                $data = json_decode($_POST["stopwatch-em-json-{$field}"], true);
+                $post_value = $_POST["stopwatch-em-json-{$field}"] ?? null;
+                if (!is_string($post_value)) continue;
+                $data = json_decode($post_value, true);
                 if (is_array($data)) {
                     if (!class_exists("\DE\RUB\StopwatchExternalModule\Project")) include_once("classes/Project.php");
                     $project = Project::load($this->framework, $project_id);
