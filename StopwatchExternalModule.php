@@ -515,8 +515,17 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 else if ($params["mode"] == "capture") {
                     $repeating_field_names[] = "is_stop";
                 }
+                if (!is_array($params["mapping"])) {
+                    $params["error"] = $this->tt("error_invalidmapping"); //= Invalid storage field mappings.
+                    return $params;
+                }
+                $invalid_mapping_keys = array_diff(array_keys($params["mapping"]), $repeating_field_names);
+                if (count($invalid_mapping_keys)) {
+                    $params["error"] = $this->tt("error_invalidmappingkeys", implode(", ", $invalid_mapping_keys)); //= Invalid storage mapping keys: {0}.
+                    return $params;
+                }
                 foreach ($repeating_field_names as $fieldname) {
-                    $mapping = @$params["mapping"][$fieldname];
+                    $mapping = $params["mapping"][$fieldname] ?? null;
                     if (!empty($mapping)) {
                         $repeating_fields[$fieldname] = $mapping;
                     }
