@@ -4,7 +4,7 @@ A REDCap External Module that provides a stopwatch widget that can be integrated
 
 ## Bugs / Feature Requests
 
-In case of bugs, or for feature requests, please visit this module's [GitHub](https://github.com/davwillev/stopwatch) page and open an issue.
+In case of bugs, or for feature requests, please open an issue on the module's [GitHub](https://github.com/grezniczek/stopwatch/issues) page.
 
 ## Installation
 
