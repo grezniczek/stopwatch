@@ -79,7 +79,7 @@ _Note:_ When providing parameters, the equal sign `=` must touch the action tag 
 Data from a stopwatch capturing multiple timepoints ('splits') or laps, by default, is stored as a JSON data structure inside a _Notes Box_ or _Text Box_ (without validation), unless `mapping` is specified, in which case the data is stored in the fields of another form. In the latter case, `target` must still exist and be a _Text Box_ without validation, as some metadata needs to be stored there (this field should typically not be shown and made read only).
 
 - `mapping` - A JSON object with the following keys. All except `elapsed` are optional. All fields must be on the same repeating instrument, separate from the @STOPWATCH field. The exact storage format depends on the chosen field type (see below).
-  - `id` - Field for storing the id of the stopwatch. This must be a _Text Box_ without validation. This mapping is useful when capturing the data from multiple stopwatches in the same repeating instrument.
+  - `id` - Field for storing the id of the stopwatch. This must be a _Text Box_ without validation on the same repeating instrument as the other mappings. This mapping is useful when capturing the data from multiple stopwatches in the same repeating instrument.
   - `elapsed` - Field for storing the elapsed time. This mapping **must** be provided.
   - `start` - Field for storing the date/time the capture was (first) started.
   - `stop` - Field for storing the date/time the capture was (last) stopped.
@@ -278,7 +278,7 @@ This module uses some code from Andy Martin (ActionTagHelper and other bits).
 
 Version | Description
 ------- | ---------------------
-v1.1.1  | Fixed displayed action tag names to use the actually supported dashes (instead of underscores).<br>Bugfix: Resetting a stopwatch no longer saves pending capture/lap data in repeat storage.<br>Bugfix: Repeating stopwatch fields now save their summaries to the correct instance.<br>Bugfix: All supported datetime mappings now store correctly.<br>Bugfix: Timestamp mappings now handle UTC times correctly.
+v1.1.1  | Fixed displayed action tag names to use the actually supported dashes (instead of underscores).<br>Bugfix: Resetting a stopwatch no longer saves pending capture/lap data in repeat storage.<br>Bugfix: Repeating stopwatch fields now save their summaries to the correct instance.<br>Bugfix: All supported datetime mappings now store correctly.<br>Bugfix: Timestamp mappings now handle UTC times correctly.<br>Bugfix: Invalid id mappings are now detected before saving.
 v1.1.0  | Updated framework version (14; REDCap 13.7.3+); fixed Bootstrap 5 issues; action tags are now shown in the list of action tags.
 v1.0.6  | Add support for multiple redcap_data tables.
 v1.0.5  | Bugfix: The module would not work on classic projects (i.e. non-longitudinal and/or not having repeating forms/events).

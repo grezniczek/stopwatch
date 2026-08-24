@@ -471,7 +471,7 @@ class StopwatchExternalModule extends AbstractExternalModule {
                     $params["error"] = $this->tt("error_invalidtargettext"); //= Target field type must be of type 'Text Box' without validation.
                     return $params;
                 }
-                $repeating_field_names = array("elapsed", "start", "stop", "index");
+                $repeating_field_names = array("id", "elapsed", "start", "stop", "index");
                 // Extra options.
                 if ($params["mode"] == "lap") {
                     $repeating_field_names[] = "cumulated";
