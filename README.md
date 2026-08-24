@@ -150,6 +150,8 @@ Behavior of the module can be configured at the project level:
 
 - **Enable JavaScript debug logging**: When enabled, the module will output debug information to the browser console.
 
+The module ships with English master strings and a complete German translation in `lang/German.ini`. Additional translations can be added as language files in the same directory.
+
 ## Examples
 
 A demo project is available [here](demo-project/StopwatchEMTest.xml).
@@ -284,6 +286,7 @@ The v1.2.0 reliability release also benefited from a rigorous code-review and te
 - Improved PHP 8 compatibility by handling missing optional values, action-tag types, and untagged fields safely.
 - Invalid action-tag JSON and repeat-storage mapping keys are now reported on the affected field.
 - Action-tag descriptions, widget accessibility text, and remaining runtime messages now use the module language strings.
+- Added a complete German language file as a translation example.
 - Corrected the documented action-tag spelling to use dashes rather than underscores.
 
 ### Earlier releases
