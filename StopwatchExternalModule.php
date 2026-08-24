@@ -133,12 +133,9 @@ class StopwatchExternalModule extends AbstractExternalModule {
         preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0);
         if (count($matches) == 1) {
             $match = $matches[0];
-            $ms = isset($match["f"]) ? $match["f"] : "0";
-            $ms_digits = strlen($ms);
-            $ms_frac = $ms / (1000 / pow(10, 3 - $ms_digits));
-            $datetime = new \DateTime();
-            $datetime->setDate($match["Y"], $match["m"], $match["d"]);
-            $datetime->setTime($match["H"], $match["i"], $match["s"], $ms);
+            $ms = isset($match["f"]) ? (int) str_pad(substr($match["f"], 0, 3), 3, "0") : 0;
+            $ms_frac = $ms / 1000;
+            $datetime = new \DateTime($value);
             $ts = $datetime->getTimestamp();
             if ($target_type == "int") {
                 $value = $ts * 1000 + $ms;
@@ -152,15 +149,15 @@ class StopwatchExternalModule extends AbstractExternalModule {
                 $value = $ts + $ms_frac;
                 return str_replace(".", ",", "$value");
             }
-            if ($target_type == "date_dmy") return date("d-m-Y", $ts);
-            if ($target_type == "date_mdy") return date("m-d-Y", $ts);
-            if ($target_type == "date_ymd") return date("Y-m-d", $ts);
-            if ($target_type == "datetime_dmy") return date("d-m-Y H:i", $ts);
-            if ($target_type == "datetime_mdy") return date("m-d-Y H:i", $ts);
-            if ($target_type == "datetime_ymd") return date("Y-m-d H:i", $ts);
-            if ($target_type == "datetime_seconds_dmy") return date("d-m-Y H:i:s", $ts);
-            if ($target_type == "datetime_seconds_mdy") return date("m-d-Y H:i:s", $ts);
-            if ($target_type == "datetime_seconds_ymd") return date("Y-m-d H:i:s", $ts);
+            if (in_array($target_type, array("date_dmy", "date_mdy", "date_ymd"), true)) {
+                return date("Y-m-d", $ts);
+            }
+            if (in_array($target_type, array("datetime_dmy", "datetime_mdy", "datetime_ymd"), true)) {
+                return date("Y-m-d H:i", $ts);
+            }
+            if (in_array($target_type, array("datetime_seconds_dmy", "datetime_seconds_mdy", "datetime_seconds_ymd"), true)) {
+                return date("Y-m-d H:i:s", $ts);
+            }
         }
         return null;
     }
@@ -620,7 +617,8 @@ class StopwatchExternalModule extends AbstractExternalModule {
         // start or stop
         if ($target_type == null) return $value;
         $format = function($ts, $ms) {
-            return date("Y-m-d", $ts)."T".date("H:i:s", $ts).".{$ms}Z";
+            $ms = str_pad($ms, 3, "0", STR_PAD_LEFT);
+            return gmdate("Y-m-d", $ts)."T".gmdate("H:i:s", $ts).".{$ms}Z";
         };
         if ($target_type == "int") {
             $ts = floor($value / 1000);
@@ -641,37 +639,19 @@ class StopwatchExternalModule extends AbstractExternalModule {
             return $format($ts, $ms);
         }
         if (substr($target_type, 0, 4) == "date") {
-            $Y = 0;
-            $m = 0;
-            $d = 0;
+            $Y = substr($value, 0, 4);
+            $m = substr($value, 5, 2);
+            $d = substr($value, 8, 2);
             $H = 0;
             $i = 0;
             $s = 0;
-            if (strpos($target_type, "dmy") !== false) {
-                // dd-mm-yyyy
-                $d = substr($value, 0, 2);
-                $m = substr($value, 3, 2);
-                $Y = substr($value, 6, 4);
-            } 
-            if (strpos($target_type, "mdy") !== false) {
-                // mm-dd-yyyy
-                $m = substr($value, 0, 2);
-                $d = substr($value, 3, 2);
-                $Y = substr($value, 6, 4);
-            }
-            if (strpos($target_type, "ymd") !== false) {
-                // yyyy-mm-dd
-                $Y = substr($value, 0, 4);
-                $m = substr($value, 5, 2);
-                $d = substr($value, 8, 2);
-            }
             if (strpos($target_type, "time") !== false) {
-                // xx-xx-xxxx 00:00
+                // yyyy-mm-dd 00:00
                 $H = substr($value, 11, 2);
                 $i = substr($value, 14, 2);
             }
             if (strpos($target_type, "seconds") !== false) {
-                // xx-xx-xxxx xx:xx:00
+                // yyyy-mm-dd xx:xx:00
                 $s = substr($value, 17, 2);
             }
             $datetime = new \DateTime();
