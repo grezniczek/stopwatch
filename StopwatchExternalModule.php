@@ -237,7 +237,7 @@ class StopwatchExternalModule extends AbstractExternalModule {
         );
         $action_tag_results = ActionTagHelper::getActionTags($action_tags);
         foreach ($action_tags as $action_tag) {
-            foreach ($action_tag_results[$action_tag] as $field => $param_array) {
+            foreach ($action_tag_results[$action_tag] ?? array() as $field => $param_array) {
                 // Skip if not on current instrument.
                 if ($project->getFormByField($field) !== $instrument) continue; 
                 // Validate parameters and add.
