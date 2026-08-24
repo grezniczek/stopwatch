@@ -1,4 +1,6 @@
+/// <reference path="./typedefs.js" />
 // @ts-check
+
 //
 // Stopwatch External Module
 //
@@ -661,6 +663,9 @@ function reset(swd) {
     swd.laps = []
     swd.captures = []
     swd.running = false
+    if (swd.params.store_format == 'repeating' && swd.$json) {
+        swd.$json.val('')
+    }
     // UI updates.
     swd.$srsBtn.prop('disabled', false)
     swd.$rclBtn.prop('disabled', true)
