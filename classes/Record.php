@@ -131,7 +131,7 @@ class Record
             if (in_array(1, $instances)) {
                 $sql .= "`instance` IS NULL";
                 if (count($instances) > 1) {
-                    $ps = join(", ", explode("", str_repeat("?", count($instances) - 1)));
+                    $ps = join(", ", array_fill(0, count($instances) - 1, "?"));
                     $sql .= " OR `instance` IN ($ps)";
                     foreach ($instances as $instance) {
                         if ($instance == 1) continue;
@@ -140,7 +140,7 @@ class Record
                 }
             }
             else {
-                $ps = join(", ", explode("", str_repeat("?", count($instances) - 1)));
+                $ps = join(", ", array_fill(0, count($instances), "?"));
                 $sql .= "`instance` IN ($ps)";
                 foreach ($instances as $instance) {
                     array_push($parameters, $instance);
@@ -155,7 +155,7 @@ class Record
             if (in_array(1, $instances)) {
                 $sql .= "`instance` IS NULL";
                 if (count($instances) > 1) {
-                    $ps = join(", ", explode("", str_repeat("?", count($instances) - 1)));
+                    $ps = join(", ", array_fill(0, count($instances) - 1, "?"));
                     $sql .= " OR `instance` IN ($ps)";
                     foreach ($instances as $instance) {
                         if ($instance == 1) continue;
@@ -164,7 +164,7 @@ class Record
                 }
             }
             else {
-                $ps = join(", ", explode("", str_repeat("?", count($instances) - 1)));
+                $ps = join(", ", array_fill(0, count($instances), "?"));
                 $sql .= "`instance` IN ($ps)";
                 foreach ($instances as $instance) {
                     array_push($parameters, $instance);
@@ -184,15 +184,17 @@ class Record
         }
 
         // Build data structure for REDCap::saveData().
+        $repeat_data = array();
+        foreach ($instances as $instance) {
+            $repeat_data[$instance] = $field_values;
+        }
         $data = null;
         if ($mode == self::REPEAT_EVENT) {
             $data = array(
                 $this->record_id => array(
                     "repeat_instances" => array(
                         $event_id => array(
-                            null => array(
-                                $instance => $field_values
-                            )
+                            null => $repeat_data
                         )
                     )
                 )
@@ -203,9 +205,7 @@ class Record
                 $this->record_id => array(
                     "repeat_instances" => array(
                         $event_id => array(
-                            $form => array(
-                                $instance => $field_values
-                            )
+                            $form => $repeat_data
                         )
                     )
                 )

@@ -79,7 +79,7 @@ class StopwatchExternalModule extends AbstractExternalModule {
                         // Save instances.
                         $rv = $record->addFormInstances($params["form"], $params["event"], $instances_data);
                         // Store return value into target field.
-                        $record->updateFields(array($params["target"] => $rv), $event_id);
+                        $record->updateFields(array($params["target"] => $rv), $event_id, $repeat_instance);
                     }
                     catch (\Exception $e) {
                         if ($debug) REDCap::logEvent(
