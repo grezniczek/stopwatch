@@ -550,13 +550,19 @@ class StopwatchExternalModule extends AbstractExternalModule {
         }
         // Get value from target field.
         $data = $record->getFieldValues([$params["target"]], $event_id, $instance);
-        list($load_event, $load_from, $load_to, $load_n) = explode(":", $data[$params["target"]][$instance]);
         $load_instances = array();
-        if ($load_n * 1 > 0) {
-            for ($i = $load_from * 1; $i <= $load_to * 1; $i++) {
-                array_push($load_instances, $i);
+        if ($params["store_format"] == "repeating") {
+            $summary = $data[$params["target"]][$instance] ?? "";
+            $summary_parts = explode(":", $summary);
+            if (count($summary_parts) == 4) {
+                list($load_event, $load_from, $load_to, $load_n) = $summary_parts;
+                if ($load_n * 1 > 0) {
+                    for ($i = $load_from * 1; $i <= $load_to * 1; $i++) {
+                        array_push($load_instances, $i);
+                    }
+                    $data = $record->getFieldValues(array_values($repeating_fields), $load_event, $load_instances);
+                }
             }
-            $data = $record->getFieldValues(array_values($repeating_fields), $load_event, $load_instances);
         }
         //
         // Capture mode
