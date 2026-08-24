@@ -108,7 +108,7 @@ class ActionTagHelper
      *
      * @param $string           The string to be parsed for actiontags (in the format of <code>@FOO=BAR or @FOO={"param":"bar"}</code>
      * @param null $tag_only    If you wish to select a single tag
-     * @return array|bool       returns the match array with the key equal to the tag and an array containing keys of 'params, params_json and params_text'
+     * @return array            returns the match array with the key equal to the tag and an array containing keys of 'params, params_json and params_text'
      */
     static function parseActionTags($string, $tag_only = null) {
         $re = "/(?(DEFINE)
@@ -142,8 +142,8 @@ class ActionTagHelper
 
         preg_match_all($re, $string, $matches);
 
-        // Return false if none are found
-        if (count($matches['actiontag']) == 0) return false;
+        // Return an empty array if none are found.
+        if (count($matches['actiontag']) == 0) return array();
 
         $results = array();
 
